@@ -1,3 +1,5 @@
+#~*~ encoding: UTF-8 ~*~
+
 import serial
 import os
 from serial.tools import list_ports
@@ -47,8 +49,11 @@ def format_output(message):
 
 available_ports = list_serial_ports()
 for port in available_ports:
-    arduino_serial = serial.Serial(port,9600)
-    if handshake_arduino():
-        serial_monitor()
+    try:
+        arduino_serial = serial.Serial(port,9600)
+        if handshake_arduino():
+            serial_monitor()
     arduino_serial.close()
+    except serial.serialutil.SerialException:
+	pass
 
